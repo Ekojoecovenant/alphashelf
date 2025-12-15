@@ -10,6 +10,10 @@ export class BookService {
     private readonly bookRepo: Repository<Book>,
   ) {}
 
+  /**
+   * Fetch a single book owned by a specific user
+   * Ownership is enforced at query level
+   */
   async findUserBook(bookId: string, userId: string) {
     const book = await this.bookRepo.findOne({
       where: {
@@ -24,5 +28,17 @@ export class BookService {
     }
 
     return book;
+  }
+
+  /**
+   * Create a book and bind ownership to user
+   */
+  async createBook(userId: string, data: Partial<Book>) {
+    const book = this.bookRepo.create({
+      ...data,
+      owner: { id: userId },
+    });
+
+    return this.bookRepo.save(book);
   }
 }
