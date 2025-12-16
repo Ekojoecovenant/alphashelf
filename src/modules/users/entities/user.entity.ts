@@ -5,11 +5,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Role } from '../../auth/enums/role.enum';
 
-export enum UserRole {
-  USER = 'USER',
-  ADMIN = 'ADMIN',
-}
+// export enum UserRole {
+//   USER = 'USER',
+//   ADMIN = 'ADMIN',
+// }
 
 @Entity()
 export class User {
@@ -24,10 +25,10 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: UserRole,
-    default: UserRole.USER,
+    enum: Role,
+    default: Role.USER,
   })
-  role: UserRole;
+  role: Role;
 
   @CreateDateColumn()
   createdAt: Date;

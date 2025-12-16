@@ -10,6 +10,7 @@
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "migration:generate": "npm run typeorm -- migration:generate src/migrations/InitSchema -d src/config/data-source.ts",
     "migration:run": "npm run typeorm -- migration:run -d src/config/data-source.ts",
+    "seed:admin": "ts-node src/database/seeds/create-admin.seed.ts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
