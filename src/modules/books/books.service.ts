@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
@@ -13,8 +17,13 @@ export class BooksService {
   /**
    * Fetch a single book owned by a specific user
    * Ownership is enforced at query level
+   * Validation for expected bookId as uuid is added
    */
   async findUserBook(bookId: string, userId: string) {
+    if (!isValidUuid(userId) || !isValidUuid(bookId)) {
+      throw new BadRequestException('Invalid ');
+    }
+
     const book = await this.bookRepo.findOne({
       where: {
         id: bookId,
@@ -41,4 +50,10 @@ export class BooksService {
 
     return this.bookRepo.save(book);
   }
+}
+
+function isValidUuid(uuid: string) {
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(uuid);
 }
